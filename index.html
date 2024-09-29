@@ -5,16 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Typing Game</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <style>
 
   body {
-    font-family: "courier new", Courier, monospace;
+    font-family: "IBM Plex Mono", "courier new", Courier, monospace;
   }
   
 </style>
 <body>
-
+    <span style="font-family:'IBM Plex Mono'"></span>
 <script>
 let gameData = {
     words : [
@@ -147,7 +150,7 @@ class MenuScene extends Phaser.Scene {
             this.scene.start('GameScene');  
         }, 0.4);
         
-        let startText = this.add.text(400, 470, 'Or press Space to Start', { fontSize: '24px', fill: '#fff' }).setOrigin(0.5);
+        let startText = this.add.text(400, 470, 'Or press Space to Start', { fontSize: '24px', fill: '#fff', fontFamily:"IBM Plex Mono" }).setOrigin(0.5);
         console.log(startText)
         this.tweens.add({
             targets: startText,
@@ -231,9 +234,9 @@ class GameScene extends Phaser.Scene {
             hideOnComplete: true
         });
 
-        stageText = this.add.text(300, 16, 'Stage ' + (gameData.currentStage + 1) + '/' + (gameData.stages.length), { fontSize: '32px', fill: '#fff' });
+        stageText = this.add.text(300, 16, 'Stage ' + (gameData.currentStage + 1) + '/' + (gameData.stages.length), { fontSize: '32px', fill: '#fff', fontFamily:"IBM Plex Mono" });
 
-        nextStageText = this.add.text(400, 300, 'Next Stage', { fontSize: '64px', fill: '#0f0' }).setOrigin(0.5, 0.5)
+        nextStageText = this.add.text(400, 300, 'Next Stage', { fontSize: '64px', fill: '#0f0', fontFamily:"IBM Plex Mono" }).setOrigin(0.5, 0.5)
             .setVisible(false);
 
         this.scene.pause();  
@@ -283,10 +286,10 @@ class PauseDialogueScene extends Phaser.Scene {
         this.characterSprite = this.add.sprite(700, 490, 'character', this.dialogueData.face[0]).setScale(0.5);
         this.speechBubble = this.add.image(10, 400, 'speechBubble').setOrigin(0, 0).setScale(0.5);
         this.dialogueText = this.add.text(40, 430, this.dialogueData.text[0], {
-            fontSize: '21px', fill: '#fff', lineSpacing: 6, wordWrap: { width: 550 }
+            fontSize: '21px', fill: '#fff', lineSpacing: 6, wordWrap: { width: 550 }, fontFamily:"IBM Plex Mono"
         });
 
-        if (gameData.currentStage >= gameData.stages.length || gameData.playerHP == 0) {
+        if (gameData.currentStage >= gameData.stages.length || gameData.playerHP <= 0) {
             this.input.keyboard.off('keydown', handleTyping); 
             let replayButton = new Button(this, 470, 530, 'replayButton', 'replayButtonHover', () => {
                 this.scene.start('GameScene');  
@@ -312,7 +315,8 @@ class CreditsScene extends Phaser.Scene {
         this.add.text(330, 35, 'Credits', {
             fontSize: '32px',
             fill: '#ffffff',
-            wordWrap: { width: 600 },
+            wordWrap: { width: 600 }, 
+            fontFamily:"IBM Plex Mono"
         });
         let credit_text = `[b]Graphics:[/b]
 - [url=https://craftpix.net]Craftpix[/url] for Ships, Explosions and UI assets  
@@ -332,7 +336,7 @@ class CreditsScene extends Phaser.Scene {
 I don't have enough time to check word list nor implement word blacklist. If you find offensive words, please 
 forgive me and let me know.`;
 
-        let wordText = this.add.rexBBCodeText(230, 90 , credit_text, { fontSize: '18px', fill: '#fff',
+        let wordText = this.add.rexBBCodeText(230, 90 , credit_text, { fontSize: '18px', fill: '#fff', fontFamily:"IBM Plex Mono",
             wrap: {
                 mode: 'word',
                 width: 365
@@ -403,7 +407,7 @@ function spawnEnemy(scene, word, spriteNo, moveTime, enemyNo) {
     let enemy = scene.add.sprite(700, 120 + enemyNo * 70, 'enemy' + spriteNo).setOrigin(0.5, 0.5).setScale(1, 1);
     enemy.word = word;  
 
-    let wordText = scene.add.rexBBCodeText(enemy.x + 60, enemy.y - 15 , word, { fontSize: '24px', fill: '#fff' });
+    let wordText = scene.add.rexBBCodeText(enemy.x + 60, enemy.y - 15 , word, { fontSize: '24px', fill: '#fff', fontFamily:"IBM Plex Mono" });
     wordText.setData('word', word);
     wordText.setData('typedLength', 0); 
 
@@ -527,7 +531,7 @@ function nextStage(scene) {
     currentWord = '';
 
     if (gameData.currentStage >= gameData.stages.length) {
-        scene.add.text(400, 300, 'You Won!', { fontSize: '64px', fill: '#0f0' }).setOrigin(0.5, 0.5);
+        scene.add.text(400, 300, 'You Won!', { fontSize: '64px', fill: '#0f0', fontFamily:"IBM Plex Mono" }).setOrigin(0.5, 0.5);
         let dialogue = dialogues.find(d => d.stage === 'win');
         if (dialogue) {
             sfx.win.play();
@@ -563,7 +567,7 @@ function loseHP(scene) {
         hpIcon.destroy();
         playerSprite.play('explodeenemy1');
         sfx.explosion.play();
-        scene.add.text(400, 300, 'Game Over', { fontSize: '64px', fill: '#f00' }).setOrigin(0.5, 0.5);
+        scene.add.text(400, 300, 'Game Over', { fontSize: '64px', fill: '#f00', fontFamily:"IBM Plex Mono" }).setOrigin(0.5, 0.5);
 
         let dialogue = dialogues.find(d => d.stage === 'lose');
         if (dialogue) {
